@@ -13,7 +13,7 @@ sudo raspi-config -> Interfacing Options
 #
 
 # Start restreamer
-./start-restreamer-docker.sh
+RS_PASSWORD=<password goes here> ./start-restreamer-docker.sh
 
 # deploy proxy service for restreamer webserver on kubernetes
 # this deployment descriptor is hosted in pharmbio/k8s-yamls
