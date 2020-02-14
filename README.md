@@ -1,5 +1,5 @@
 # robot_lab_cameras
-
+```bash
 # ssh into raspberry pi that has the camera
 
 # Activate camera in raspberry pi
@@ -21,3 +21,4 @@ kubectl apply -f camera-proxy-service.yaml
 
 # Add camera player embed link to grafana dashboard
 # the url to the camera is specified in the kubernetes deployment descriptor "camera-proxy-service.yaml"
+```
