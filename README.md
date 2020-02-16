@@ -1,4 +1,9 @@
-# robot_lab_cameras
+# Robot lab live stream cameras
+Streaming cameras setup for live monitoring of the lab automation system via Grafana dashboards.
+<br>
+The core of this setup is the Restreamer docker image https://github.com/datarhei/restreamer
+<br>
+We are using our kubernetes cluster nginx ingress controler as https proxy in front of the restreamer http-web server (located in out private lab-network). This is done by specifying a kubernetes ingress pointing at a kubernetes service with the external http server as an endpoint.
 ```bash
 # ssh into raspberry pi that has the camera
 
