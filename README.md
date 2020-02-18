@@ -21,7 +21,7 @@ sudo raspi-config -> Interfacing Options
 # install docker
 curl -fSLs https://get.docker.com | sudo sh
 sudo usermod -aG docker pi
-exit
+# exit shell here for usermod next login
 
 # install docker-compose
 sudo pip3 install docker-compose
@@ -31,7 +31,6 @@ sudo pip3 install docker-compose
 # in the restreamer.nginx.config the only changes are:
 #    hls_playlist_length 1s;
 #    hls_fragment 1s;
-#
 
 # rename .env-template to .env
 
