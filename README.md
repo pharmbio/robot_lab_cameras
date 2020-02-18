@@ -33,13 +33,14 @@ sudo pip3 install docker-compose
 #    hls_fragment 1s;
 #
 
-# Start restreamer
-RS_PASSWORD=<password goes here> ./start-restreamer-docker.sh
+# rename .env-template to .env
 
-# deploy proxy service for restreamer webserver on kubernetes
-# this deployment descriptor is hosted in pharmbio/k8s-yamls
-kubectl apply -f camera-proxy-service.yaml
+# edit params in .env
+
+# maybe edit in docker-compose
+
+# Start restreamer
+docker-compose up -d
 
 # Add camera player embed link to grafana dashboard
-# the url to the camera is specified in the kubernetes deployment descriptor "camera-proxy-service.yaml"
 ```
