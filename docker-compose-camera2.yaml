@@ -1,0 +1,58 @@
+version: "3.3"
+
+services:
+
+  #
+  # Traefik is the reverse proxy providing https in front
+  # of the restreamer http stream server image
+  #
+  traefik:
+    image: "traefik:v2.1"
+    container_name: "traefik"
+    restart: always
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.myresolver.acme.email=${TRAEFIK_ACME_EMAIL}"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "./letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  camera1:
+    image: "datarhei/restreamer:latest"
+    container_name: "restreamer"
+    privileged: false
+    restart: always
+    environment:
+      - RS_USERNAME=${CAMERA1_RS_USERNAME}
+      - RS_PASSWORD=${CAMERA1_RS_PASSWORD}
+      - RS_MODE=USBCAM
+      - RS_USBCAM_WIDTH=1280
+      - RS_USBCAM_HEIGHT=720
+      - RS_USBCAM_FPS=10
+      - RS_USBCAM_GOP=10
+      - RS_USBCAM_BITRATE=4000000
+      - RS_AUDIO=silence
+    volumes:
+      - "/mnt/restreamer/db:/restreamer/db"
+      - "./pharmbio.restreamer.camera2.nginx.conf:/restreamer/conf/nginx.conf"
+      - "./player-pharmbio-mod.html:/restreamer/src/webserver/public/player-pharmbio-mod.html"
+    devices:
+      - "/dev/video0:/dev/video"
+    tmpfs:
+      - "/tmp/hls"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=8080"
+      - "traefik.http.routers.camera1.rule=Host(`${CAMERA1_URL}`)"
+      - "traefik.http.routers.camera1.entrypoints=websecure"
+      - "traefik.http.routers.camera1.tls.certresolver=myresolver"
