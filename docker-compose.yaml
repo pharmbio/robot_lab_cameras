@@ -49,7 +49,7 @@ services:
     volumes:
       - "/mnt/restreamer/db:/restreamer/db"
       - "/opt/vc:/opt/vc"
-      - "./pharmbio.restreamer.nginx.conf:/restreamer/conf/yourcanginx.conf"
+      - "./pharmbio.restreamer.nginx.conf:/restreamer/conf/nginx.conf"
       - "./player-pharmbio-mod.html:/restreamer/src/webserver/public/player-pharmbio-mod.html"
     tmpfs:
       - "/tmp/hls"
