@@ -1,0 +1,94 @@
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  labels:
+    app: restreamer-camera1
+  name: restreamer-camera1
+  namespace: labinf
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: restreamer-camera1
+  template:
+    metadata:
+      labels:
+        app: restreamer-camera1
+    spec:
+      containers:
+      - image: datarhei/restreamer:latest
+        imagePullPolicy: Always
+        name: restreamer-camera1
+        env:
+        - name: RS_USERNAME
+          value: admin
+        - name: RS_PASSWORD
+          value: datarhei
+        ports:
+          - containerPort: 8080
+        resources:
+          limits:
+            cpu: "2"
+            memory: 4000Mi
+          requests:
+            cpu: "1"
+            memory: 2000Mi
+#        volumeMounts:
+#        - name: restreamer-config
+#          mountPath: /restreamer/db/v1.json
+#          subPath: v1.json
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+#      volumes:
+#      - name: restreamer-config
+#        configMap:
+#          name: camera1-restreamer-config
+
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: restreamer-camera1
+  labels:
+    app: restreamer-camera1
+  namespace: labinf
+spec:
+  ports:
+  - name: web
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: restreamer-camera1
+  sessionAffinity: None
+  type: ClusterIP
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+  labels:
+    app: restreamer-camera1
+  name: restreamer-camera1
+  namespace: labinf
+spec:
+  rules:
+  - host: restreamer-camera1.k8s-prod.pharmb.io
+    http:
+      paths:
+      - backend:
+          serviceName: restreamer-camera1
+          servicePort: 80
+        path: /
+  tls:
+  - hosts:
+    - restreamer-camera1.k8s-prod.pharmb.io
+    secretName: restreamer-camera1-tls
