@@ -2,13 +2,19 @@
 Streaming cameras setup for live monitoring of the lab automation system (no longer via Grafana dashboards).
 
 # Camera 1: Hikvision DS-2CD2345FWD-I 4MP
-
+  - Download and Install Hikvision SADPTool (to init camera, configure static ip and password)
+  - Connect to camera built in config utility: http://<static-ip-of-camera>
+  - Configure DNS-server, Image-settings, OSD, Clock. (ntp.uu.se), Exposure etc
+  
 # Camera 2: Hikvision DS-2CD2345FWD-I 4MP
-- Download and Install Hikvision SADPTool (to init camera, configure static ip and password)
-- Connect to camera built in config utility: http://<static-ip-of-camera>
-- Configure DNS-server, Image-settings, OSD, Clock. (ntp.uu.se), Exposure etc
+  - Download and Install Hikvision SADPTool (to init camera, configure static ip and password)
+  - Connect to camera built in config utility: http://<static-ip-of-camera>
+  - Configure DNS-server, Image-settings, OSD, Clock. (ntp.uu.se), Exposure etc
 
-# Camera 3: Hikvision DS-2CD2443G0-IW Fixed Cube Network Camera 4MP
+# Camera 3: Hikvision DS-2CD2443G0-IW 4MP
+  - Download and Install Hikvision SADPTool (to init camera, configure static ip and password)
+  - Connect to camera built in config utility: http://<static-ip-of-camera>
+  - Configure DNS-server, Image-settings, OSD, Clock. (ntp.uu.se), Exposure etc
 
   
 Play stream in VLC:
