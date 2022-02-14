@@ -15,6 +15,9 @@ Streaming cameras setup for live monitoring of the lab automation system (no lon
   - Download and Install Hikvision SADPTool (to init camera, configure static ip and password)
   - Connect to camera built in config utility: http://<static-ip-of-camera>
   - Configure DNS-server, Image-settings, OSD, Clock. (ntp.uu.se), Exposure etc
+  
+# Microphone 1: Jabra Speak PHS002W
+  - Listen: ```ssh <user>@<robotlab-ubuntu-datorn> "arecord -f S16_LE -r 36000" | aplay```
 
   
 Play stream in VLC:
